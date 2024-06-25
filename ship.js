@@ -9,6 +9,10 @@ const shipDict = {
 export function ship (shipType) {
 
     const length = shipDict[shipType];
+    let numHit = 0;
 
-    return {length};
+    const hit = () => numHit++;
+    const showHit = () => numHit;
+
+    return {length, hit, showHit};
 };
