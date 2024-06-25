@@ -1,5 +1,5 @@
 //test ship factory
-import { ship } from "./ship.js";
+import { ship } from "../src/modules/ship.js";
 
 describe("Carrier ship", ()=>{
     const carrier = ship('carrier');

@@ -1,4 +1,4 @@
-import { gameBoard } from "./board.js"
+import { gameBoard } from "../src/modules/board.js"
 
 describe("Test game board functionality", ()=>{
 
