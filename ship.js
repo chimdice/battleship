@@ -13,6 +13,7 @@ export function ship (shipType) {
 
     const hit = () => numHit++;
     const showHit = () => numHit;
+    const isSunk = () => numHit === length;
 
-    return {length, hit, showHit};
+    return {length, hit, isSunk};
 };

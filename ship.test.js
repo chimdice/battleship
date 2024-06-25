@@ -6,12 +6,8 @@ describe("Carrier ship", ()=>{
     carrier.hit()
     carrier.hit()
 
-    test("The length of a Carrier is 5", ()=>{
-        expect(carrier.length).toBe(5);
-    });
-
-    test("The number os hits should be 2", ()=>{
-        expect(carrier.showHit()).toBe(2);
+    test("The ship is not sunken", ()=>{
+        expect(carrier.isSunk()).toBe(false);
     });
     
 });
@@ -19,12 +15,8 @@ describe("Carrier ship", ()=>{
 describe("Patrol ship", ()=>{
     const patrol = ship('patrol');
 
-    test("The length of a Patrol is 2", ()=>{
-        expect(patrol.length).toBe(2);
-    });
-
-    test("The number os hits should be 0", ()=>{
-        expect(patrol.showHit()).toBe(0);
+    test("The ship is not sunken", ()=>{
+        expect(patrol.isSunk()).toBe(false);
     });
     
 });
@@ -35,12 +27,8 @@ describe("Submarine", ()=>{
     sub.hit()
     sub.hit()
 
-    test("The length of a Submarine is 3", ()=>{
-        expect(sub.length).toBe(3);
-    });
-
-    test("The number os hits should be 3", ()=>{
-        expect(sub.showHit()).toBe(3);
+    test("The ship sunk", ()=>{
+        expect(sub.isSunk()).toBe(true);
     });
     
 });
