@@ -5,6 +5,9 @@ export const gameBoard = function () {
     let numOfShips = 0;
     const getNumShips = () => numOfShips;
 
+    let allShipSunk = false;
+    const getAllShipSunk = () => allShipSunk;
+
     const shipStorage = {};
     const board = [];
     const getBoard = () => board;
@@ -44,5 +47,29 @@ export const gameBoard = function () {
                 
     };
 
-    return {getNumShips , getBoard, createShip}
+    const receiveAttack = (x, y) => {
+        const coordinateIcon = board[y][x];
+        let shipHit;
+        if ((coordinateIcon === 'o') || (coordinateIcon === 'x')) {
+            shipHit = false;
+        } else {
+            shipHit = true;
+        };
+
+        if (shipHit) {
+            const ship = shipStorage[coordinateIcon];
+            ship.hit();
+            if (ship.isSunk()) {
+                numOfShips--;
+            };
+
+            if(numOfShips === 0) {
+                allShipSunk = true;
+            };
+        };
+
+        board[y][x] = 'x'
+    };
+
+    return {getNumShips , getBoard, createShip, receiveAttack, getAllShipSunk}
 }
