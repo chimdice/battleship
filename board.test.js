@@ -3,8 +3,8 @@ import { gameBoard } from "./board.js"
 describe("Test game board functionality", ()=>{
 
     const board = gameBoard();
-    board.createShip("destroyer", [0,0], 'horizontal');
-    board.createShip("patrol", [6,3], 'vertical');
+    board.createShip("destroyer", [[0,0],[1,0],[2,0]]);
+    board.createShip("patrol", [[6,3],[6,4]]);
 
     test("Check Both ships were created", ()=>{
         expect(board.getNumShips()).toBe(2);

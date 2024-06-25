@@ -16,31 +16,32 @@ export const gameBoard = function () {
         };
     };
 
+    const checkIfBoardEmpty = (positions) => {
+        let empty = true;
+        positions.forEach((position)=>{
+            if (board[position[1]][position[0]] !== 'o') {
+                empty = false;
+            }
+        })
 
-    const createShip = (shipName, position, direction) => {
+        return empty
+    };
+
+
+    const createShip = (shipName, positions) => {
         
         const newShip = ship(shipName);
-        
+        const isEmpty = checkIfBoardEmpty(positions)
 
-        if (direction === 'vertical') {
-            const maxPosition = 10 - newShip.length;
-            if (position[1] < maxPosition) {
-                numOfShips++;
-                shipStorage[`ship${numOfShips}`] = newShip;
-                for (let i=0; i<newShip.length; i++) {
-                    board[position[1]+i][position[0]] = `ship${numOfShips}`
-                };
-            };
-        } else if (direction === 'horizontal') {
-            const maxPosition = 10 - newShip.length;
-            if (position[0] < maxPosition) {
-                numOfShips++;
-                shipStorage[`ship${numOfShips}`] = newShip;
-                for (let i=0; i<newShip.length; i++) {
-                    board[position[1]][position[0]+i] = `ship${numOfShips}`
-                };
-            };
+
+        if ((isEmpty) && (positions.length === newShip.length)) {
+            numOfShips++;
+            shipStorage[`ship${numOfShips}`] = newShip;
+            positions.forEach((position) => {
+                board[position[1]][position[0]] = `ship${numOfShips}`;
+            });
         };
+                
     };
 
     return {getNumShips , getBoard, createShip}
