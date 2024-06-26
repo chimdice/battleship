@@ -10,10 +10,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
 }
 
 h1,h2 {
-    margin-top: 0px;
+    margin-top: 10px;
     color: var(--blue-black);
 }
 
@@ -28,14 +29,14 @@ h1,h2 {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     grid-auto-rows: max-content;
 }
 
 .grid-element {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background: white;
     outline: 1px solid var(--blue-black);
 }
@@ -49,14 +50,15 @@ h1,h2 {
 
 .direction-names,
 .ship-names {
-    padding: 15px;
+    padding: 5px;
     outline: 1px solid var(--blue-black);
     border-radius: 10px;
     margin-top: 20px;
 }
 
 .direction-names:hover,
-.ship-names:hover {
+.ship-names:hover,
+.current-selected {
     background: var(--blue-black);
     color: var(--sea-blue);
     cursor: pointer;

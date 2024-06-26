@@ -12,28 +12,36 @@ const playerTwoBoard = player2.game;
 let gameStart = false
 let player1Turn = true;
 let gameFinished = false;
-let horizontal;
+let horizontal = true;
 let choosenShipLength;
 let choosenShip;
 let numShipsPlayerOne = 0;
 let numShipsPlayerTwo = 0;
 
-function checkGameStart() {
-    if((numShipsPlayerOne+numShipsPlayerTwo) === 10) {
-        gameStart = true;
-    };
-};
+const hdirection = document.querySelector('.horizontal');
+hdirection.classList.add('current-selected');
 
-const directions = document.querySelectorAll('.direction-names');
-directions.forEach((direction) => {
-    direction.addEventListener('click', ()=>{
-        if (direction.textContent === "Horizontal") {
-            horizontal = true;
-        } else {
-            horizontal = false;
-        };
-    });
+
+const vdirection = document.querySelector('.vertical');
+vdirection.classList.add('current-selected');
+vdirection.classList.toggle('current-selected');
+
+hdirection.addEventListener('click', ()=>{
+    if (horizontal !== true) {
+        horizontal = true;
+        hdirection.classList.toggle('current-selected');
+        vdirection.classList.toggle('current-selected');
+    };
 });
+
+vdirection.addEventListener('click', ()=>{
+    if (horizontal !== false) {
+        horizontal = false;
+        hdirection.classList.toggle('current-selected');
+        vdirection.classList.toggle('current-selected');
+    };
+});
+ 
 
 function computerPlay () {
     const x = Math.floor(Math.random()*9)
@@ -63,15 +71,16 @@ function createGrid() {
                             shipLocation.push([x+i,y])
                         }
                         playerOneBoard.createShip(choosenShip, shipLocation);
-                        numShipsPlayerOne++
+                        numShipsPlayerOne  = playerOneBoard.getNumShips()
                     } else if ((! horizontal) && (y<=(10-choosenShipLength))){
                         const shipLocation = [];
                         for (let i=0; i<choosenShipLength; i++) {
                             shipLocation.push([x,y+i])
                         }
                         playerOneBoard.createShip(choosenShip, shipLocation);
-                        numShipsPlayerOne++
+                        numShipsPlayerOne = playerOneBoard.getNumShips()
                     }
+                    console.log(numShipsPlayerOne);
                     checkGameStart()
                 }
                 
@@ -99,15 +108,16 @@ function createGrid() {
                                 shipLocation.push([x+i,y])
                             }
                             playerTwoBoard.createShip(choosenShip, shipLocation);
-                            numShipsPlayerTwo++
+                            numShipsPlayerTwo = playerTwoBoard.getNumShips();
                         } else if ((! horizontal) && (y<=(10-choosenShipLength))){
                             const shipLocation = [];
                             for (let i=0; i<choosenShipLength; i++) {
                                 shipLocation.push([x,y+i])
                             }
                             playerTwoBoard.createShip(choosenShip, shipLocation);
-                            numShipsPlayerTwo++
+                            numShipsPlayerTwo = playerTwoBoard.getNumShips();
                         };
+                        console.log(numShipsPlayerTwo);
                         checkGameStart()
                 }
             })
@@ -125,10 +135,34 @@ const shipDict = {
 };
 
 const allShips = document.querySelectorAll('.ship-names');
+
+function clearAllSelected () {
+    allShips.forEach((ship)=>{
+        ship.classList.remove('current-selected');
+        ship.classList.add('current-selected');
+        ship.classList.toggle('current-selected');
+    })
+}
+
 allShips.forEach((ship)=>{
+    ship.classList.add('current-selected');
+    ship.classList.toggle('current-selected');
     ship.addEventListener('click', ()=>{
+        clearAllSelected()
         choosenShipLength = shipDict[ship.textContent];
         choosenShip = ship.textContent;
+        ship.classList.toggle('current-selected')
     });
 });
 
+function checkGameStart() {
+    if((numShipsPlayerOne+numShipsPlayerTwo) === 10) {
+        gameStart = true;
+        
+        allShips.forEach((ship)=>{
+            ship.classList.remove('current-selected');
+        });
+        hdirection.classList.remove('current-selected');
+        vdirection.classList.remove('current-selected');
+    };
+};
