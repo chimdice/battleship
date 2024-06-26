@@ -9,6 +9,14 @@ const boardTwo = document.querySelector('#board2');
 const playerOneBoard = player1.game;
 const playerTwoBoard = player2.game;
 
+let player1Turn = true;
+
+function computerPlay () {
+    const x = Math.floor(Math.random()*9)
+    const y = Math.floor(Math.random()*9)
+    playerTwoBoard.receiveAttack(x, y);
+    player1Turn = true;
+}
 
 function createGrid() {
     for (let y=9; y>=0; y--) {
@@ -18,13 +26,24 @@ function createGrid() {
             gridElement1.classList.add('grid-element');
             boardOne.appendChild(gridElement1);
             gridElement1.addEventListener('click', ()=>{
-                playerOneBoard.receiveAttack(x,y)
+                if (player1Turn) {
+                    playerOneBoard.receiveAttack(x,y);
+                    player1Turn = false;
+                    setTimeout(computerPlay, 1000);
+                };
+                
             })
 
             const gridElement2 = document.createElement('div')
             gridElement2.id = `g${x}${y}`;
             gridElement2.classList.add('grid-element');
             boardTwo.appendChild(gridElement2);
+            gridElement2.addEventListener('click', ()=>{
+                if (! player1Turn) {
+                    playerTwoBoard.receiveAttack(x,y);
+                    player1Turn = true
+                };
+            })
         };
     };
 };
@@ -33,3 +52,4 @@ createGrid()
 playerOneBoard.createShip('destroyer', [[0,0], [1,0], [2,0]])
 playerOneBoard.createShip('carrier', [[9,0], [9,1], [9,2], [9,3], [9,4]])
 playerTwoBoard.createShip('battleship', [[2,2], [3,2], [4,2], [5,2]])
+

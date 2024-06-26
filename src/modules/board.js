@@ -43,7 +43,6 @@ export const gameBoard = function (firstMove) {
                 board[position[1]][position[0]] = `ship${numOfShips}`;
                 if (firstMove) {
                     const grid = document.querySelector(`#board1 #g${position[0]}${position[1]}`);
-                    console.log(grid)
                     grid.setAttribute('style', 'background:red');
                 } else {
                     const grid = document.querySelector(`#board2 #g${position[0]}${position[1]}`);
@@ -72,6 +71,7 @@ export const gameBoard = function (firstMove) {
 
             if(numOfShips === 0) {
                 allShipSunk = true;
+                console.log('game over')
             };
         };
 
@@ -84,6 +84,7 @@ export const gameBoard = function (firstMove) {
         }
         
         board[y][x] = 'x'
+        
     };
 
     return {getNumShips , getBoard, createShip, receiveAttack, getAllShipSunk}
