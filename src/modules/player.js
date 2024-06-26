@@ -1,7 +1,8 @@
 import {gameBoard } from "./board.js";
 
-export function player() {
-    const game = gameBoard();
+export function player(firstMove) {
+    const game = gameBoard(firstMove);
+
 
     return {game}
 };

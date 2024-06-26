@@ -1,7 +1,6 @@
 import { ship } from "./ship.js";
 
-export const gameBoard = function () {
-
+export const gameBoard = function (firstMove) {
     let numOfShips = 0;
     const getNumShips = () => numOfShips;
 
@@ -42,6 +41,13 @@ export const gameBoard = function () {
             shipStorage[`ship${numOfShips}`] = newShip;
             positions.forEach((position) => {
                 board[position[1]][position[0]] = `ship${numOfShips}`;
+                if (firstMove) {
+                    const grid = document.querySelector(`#board1 #g${position[0]}${position[1]}`)
+                    grid.setAttribute('style', 'background:red');
+                } else {
+                    const grid = document.querySelector(`#board2 #g${position[0]}${position[1]}`);
+                    grid.setAttribute('style', 'background:green');
+                }
             });
         };
                 
