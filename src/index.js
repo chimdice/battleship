@@ -9,8 +9,31 @@ const boardTwo = document.querySelector('#board2');
 const playerOneBoard = player1.game;
 const playerTwoBoard = player2.game;
 
+let gameStart = false
 let player1Turn = true;
 let gameFinished = false;
+let horizontal;
+let choosenShipLength;
+let choosenShip;
+let numShipsPlayerOne = 0;
+let numShipsPlayerTwo = 0;
+
+function checkGameStart() {
+    if((numShipsPlayerOne+numShipsPlayerTwo) === 10) {
+        gameStart = true;
+    };
+};
+
+const directions = document.querySelectorAll('.direction-names');
+directions.forEach((direction) => {
+    direction.addEventListener('click', ()=>{
+        if (direction.textContent === "Horizontal") {
+            horizontal = true;
+        } else {
+            horizontal = false;
+        };
+    });
+});
 
 function computerPlay () {
     const x = Math.floor(Math.random()*9)
@@ -28,32 +51,84 @@ function createGrid() {
             gridElement1.classList.add('grid-element');
             boardOne.appendChild(gridElement1);
             gridElement1.addEventListener('click', ()=>{
-                if ((! player1Turn) && (! gameFinished)) {
-                    playerOneBoard.receiveAttack(x,y);
-                    player1Turn = true
-                };
-            })
+                if (gameStart) {
+                   if ((! player1Turn) && (! gameFinished)) {
+                        playerOneBoard.receiveAttack(x,y);
+                        player1Turn = true
+                    }; 
+                } else if (numShipsPlayerOne < 5) {
+                    if ((horizontal) && (x<=(10-choosenShipLength))){
+                        const shipLocation = [];
+                        for (let i=0; i<choosenShipLength; i++) {
+                            shipLocation.push([x+i,y])
+                        }
+                        playerOneBoard.createShip(choosenShip, shipLocation);
+                        numShipsPlayerOne++
+                    } else if ((! horizontal) && (y<=(10-choosenShipLength))){
+                        const shipLocation = [];
+                        for (let i=0; i<choosenShipLength; i++) {
+                            shipLocation.push([x,y+i])
+                        }
+                        playerOneBoard.createShip(choosenShip, shipLocation);
+                        numShipsPlayerOne++
+                    }
+                    checkGameStart()
+                }
+                
+            });
 
             const gridElement2 = document.createElement('div')
             gridElement2.id = `g${x}${y}`;
             gridElement2.classList.add('grid-element');
             boardTwo.appendChild(gridElement2);
             gridElement2.addEventListener('click', ()=>{
-                if (player1Turn && (! gameFinished)) {
+                if (gameStart) {
+                  if (player1Turn && (! gameFinished)) {
                     playerTwoBoard.receiveAttack(x,y);
                     gameFinished = playerTwoBoard.getAllShipSunk();
-                    if (! gameFinished) {
-                       player1Turn = false;
-                        setTimeout(computerPlay, 1000); 
-                    };  
-                };
+                        if (! gameFinished) {
+                            player1Turn = false;
+                            setTimeout(computerPlay, 1000); 
+                        };  
+                
+                    }; 
+                }  else if (numShipsPlayerTwo < 5) {
+                        if ((horizontal) && (x<=(10-choosenShipLength))){
+                            const shipLocation = [];
+                            for (let i=0; i<choosenShipLength; i++) {
+                                shipLocation.push([x+i,y])
+                            }
+                            playerTwoBoard.createShip(choosenShip, shipLocation);
+                            numShipsPlayerTwo++
+                        } else if ((! horizontal) && (y<=(10-choosenShipLength))){
+                            const shipLocation = [];
+                            for (let i=0; i<choosenShipLength; i++) {
+                                shipLocation.push([x,y+i])
+                            }
+                            playerTwoBoard.createShip(choosenShip, shipLocation);
+                            numShipsPlayerTwo++
+                        };
+                        checkGameStart()
+                }
             })
         };
     };
 };
 
 createGrid()
-playerOneBoard.createShip('destroyer', [[0,0], [1,0], [2,0]])
-playerOneBoard.createShip('carrier', [[9,0], [9,1], [9,2], [9,3], [9,4]])
-playerTwoBoard.createShip('battleship', [[2,2], [3,2], [4,2], [5,2]])
+const shipDict = {
+    carrier:5,
+    battleship:4,
+    destroyer:3,
+    submarine:3,
+    patrol:2
+};
+
+const allShips = document.querySelectorAll('.ship-names');
+allShips.forEach((ship)=>{
+    ship.addEventListener('click', ()=>{
+        choosenShipLength = shipDict[ship.textContent];
+        choosenShip = ship.textContent;
+    });
+});
 

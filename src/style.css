@@ -40,12 +40,14 @@ h1,h2 {
     outline: 1px solid var(--blue-black);
 }
 
+.direction,
 .ships {
     display: flex;
     font-size: 20px;
     gap:10px
 }
 
+.direction-names,
 .ship-names {
     padding: 15px;
     outline: 1px solid var(--blue-black);
@@ -53,6 +55,7 @@ h1,h2 {
     margin-top: 20px;
 }
 
+.direction-names:hover,
 .ship-names:hover {
     background: var(--blue-black);
     color: var(--sea-blue);
