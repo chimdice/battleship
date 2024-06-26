@@ -45,8 +45,8 @@ export const gameBoard = function (firstMove) {
                     const grid = document.querySelector(`#board1 #g${position[0]}${position[1]}`);
                     grid.setAttribute('style', 'background:red');
                 } else {
-                    const grid = document.querySelector(`#board2 #g${position[0]}${position[1]}`);
-                    grid.setAttribute('style', 'background:green');
+                    // const grid = document.querySelector(`#board2 #g${position[0]}${position[1]}`);
+                    // grid.setAttribute('style', 'background:green');
                 }
             });
         };
@@ -56,10 +56,14 @@ export const gameBoard = function (firstMove) {
     const receiveAttack = (x, y) => {
         const coordinateIcon = board[y][x];
         let shipHit;
+        const end = document.querySelector('.end');
         if ((coordinateIcon === 'o') || (coordinateIcon === 'x')) {
             shipHit = false;
+            end.textContent = 'miss!'
         } else {
             shipHit = true;
+            end.textContent = 'hit!'
+
         };
 
         if (shipHit) {
@@ -71,7 +75,6 @@ export const gameBoard = function (firstMove) {
 
             if(numOfShips === 0) {
                 allShipSunk = true;
-                const end = document.querySelector('.end');
                 end.textContent = "Game Over!"
             };
         };

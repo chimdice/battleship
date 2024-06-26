@@ -5,6 +5,7 @@ const player2 = player(false);
 
 const boardOne = document.querySelector('#board1');
 const boardTwo = document.querySelector('#board2');
+const gameMessage = document.querySelector('.end');
 
 const playerOneBoard = player1.game;
 const playerTwoBoard = player2.game;
@@ -155,6 +156,44 @@ allShips.forEach((ship)=>{
     });
 });
 
+function computerChooseLocation() {
+    const ships = ["destroyer", 'carrier', 'battleship', 'submarine', 'patrol']
+
+    while (numShipsPlayerTwo < 5) {
+        const choosenIndex = Math.floor(Math.random()*5);
+        const choosenDirection = Math.random();
+
+        const ship = ships[choosenIndex];
+        const shipLength = shipDict[ship];
+
+        let horizontal;
+        if (choosenDirection <= 0.5) {
+            horizontal = true;
+        } else {
+            horizontal = false;
+        }
+
+        const x = Math.floor(Math.random()*9);
+        const y = Math.floor(Math.random()*9);
+
+        if ((horizontal) && (x<=(10-shipLength))){
+            const shipLocation = [];
+            for (let i=0; i<shipLength; i++) {
+                shipLocation.push([x+i,y])
+            }
+            playerTwoBoard.createShip(ship, shipLocation);
+            numShipsPlayerTwo = playerTwoBoard.getNumShips();
+        } else if ((! horizontal) && (y<=(10-shipLength))){
+            const shipLocation = [];
+            for (let i=0; i<shipLength; i++) {
+                shipLocation.push([x,y+i])
+            }
+            playerTwoBoard.createShip(ship, shipLocation);
+            numShipsPlayerTwo = playerTwoBoard.getNumShips();
+        }
+    }
+}
+
 function checkGameStart() {
     if((numShipsPlayerOne+numShipsPlayerTwo) === 10) {
         gameStart = true;
@@ -164,5 +203,9 @@ function checkGameStart() {
         });
         hdirection.classList.remove('current-selected');
         vdirection.classList.remove('current-selected');
+
+        gameMessage.textContent = 'Game in Session';
     };
 };
+
+computerChooseLocation()
