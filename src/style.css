@@ -39,3 +39,22 @@ h1,h2 {
     background: white;
     outline: 1px solid var(--blue-black);
 }
+
+.ships {
+    display: flex;
+    font-size: 20px;
+    gap:10px
+}
+
+.ship-names {
+    padding: 15px;
+    outline: 1px solid var(--blue-black);
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.ship-names:hover {
+    background: var(--blue-black);
+    color: var(--sea-blue);
+    cursor: pointer;
+}

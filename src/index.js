@@ -15,8 +15,8 @@ let gameFinished = false;
 function computerPlay () {
     const x = Math.floor(Math.random()*9)
     const y = Math.floor(Math.random()*9)
-    playerTwoBoard.receiveAttack(x, y);
-    gameFinished = playerTwoBoard.getAllShipSunk();
+    playerOneBoard.receiveAttack(x, y);
+    gameFinished = playerOneBoard.getAllShipSunk();
     player1Turn = true;
 }
 
@@ -28,13 +28,9 @@ function createGrid() {
             gridElement1.classList.add('grid-element');
             boardOne.appendChild(gridElement1);
             gridElement1.addEventListener('click', ()=>{
-                if (player1Turn && (! gameFinished)) {
+                if ((! player1Turn) && (! gameFinished)) {
                     playerOneBoard.receiveAttack(x,y);
-                    gameFinished = playerOneBoard.getAllShipSunk();
-                    if (! gameFinished) {
-                       player1Turn = false;
-                        setTimeout(computerPlay, 1000); 
-                    };  
+                    player1Turn = true
                 };
             })
 
@@ -43,9 +39,13 @@ function createGrid() {
             gridElement2.classList.add('grid-element');
             boardTwo.appendChild(gridElement2);
             gridElement2.addEventListener('click', ()=>{
-                if ((! player1Turn) && (! gameFinished)) {
+                if (player1Turn && (! gameFinished)) {
                     playerTwoBoard.receiveAttack(x,y);
-                    player1Turn = true
+                    gameFinished = playerTwoBoard.getAllShipSunk();
+                    if (! gameFinished) {
+                       player1Turn = false;
+                        setTimeout(computerPlay, 1000); 
+                    };  
                 };
             })
         };
