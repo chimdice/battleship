@@ -71,7 +71,8 @@ export const gameBoard = function (firstMove) {
 
             if(numOfShips === 0) {
                 allShipSunk = true;
-                console.log('game over')
+                const end = document.querySelector('.end');
+                end.textContent = "Game Over!"
             };
         };
 

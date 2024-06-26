@@ -10,11 +10,13 @@ const playerOneBoard = player1.game;
 const playerTwoBoard = player2.game;
 
 let player1Turn = true;
+let gameFinished = false;
 
 function computerPlay () {
     const x = Math.floor(Math.random()*9)
     const y = Math.floor(Math.random()*9)
     playerTwoBoard.receiveAttack(x, y);
+    gameFinished = playerTwoBoard.getAllShipSunk();
     player1Turn = true;
 }
 
@@ -26,12 +28,14 @@ function createGrid() {
             gridElement1.classList.add('grid-element');
             boardOne.appendChild(gridElement1);
             gridElement1.addEventListener('click', ()=>{
-                if (player1Turn) {
+                if (player1Turn && (! gameFinished)) {
                     playerOneBoard.receiveAttack(x,y);
-                    player1Turn = false;
-                    setTimeout(computerPlay, 1000);
+                    gameFinished = playerOneBoard.getAllShipSunk();
+                    if (! gameFinished) {
+                       player1Turn = false;
+                        setTimeout(computerPlay, 1000); 
+                    };  
                 };
-                
             })
 
             const gridElement2 = document.createElement('div')
@@ -39,7 +43,7 @@ function createGrid() {
             gridElement2.classList.add('grid-element');
             boardTwo.appendChild(gridElement2);
             gridElement2.addEventListener('click', ()=>{
-                if (! player1Turn) {
+                if ((! player1Turn) && (! gameFinished)) {
                     playerTwoBoard.receiveAttack(x,y);
                     player1Turn = true
                 };
