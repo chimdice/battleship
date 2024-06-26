@@ -42,7 +42,8 @@ export const gameBoard = function (firstMove) {
             positions.forEach((position) => {
                 board[position[1]][position[0]] = `ship${numOfShips}`;
                 if (firstMove) {
-                    const grid = document.querySelector(`#board1 #g${position[0]}${position[1]}`)
+                    const grid = document.querySelector(`#board1 #g${position[0]}${position[1]}`);
+                    console.log(grid)
                     grid.setAttribute('style', 'background:red');
                 } else {
                     const grid = document.querySelector(`#board2 #g${position[0]}${position[1]}`);
@@ -74,6 +75,14 @@ export const gameBoard = function (firstMove) {
             };
         };
 
+        if (firstMove) {
+            const grid = document.querySelector(`#board1 #g${x}${y}`)
+            grid.setAttribute('style', 'background:black');
+        } else {
+            const grid = document.querySelector(`#board2 #g${x}${y}`);
+            grid.setAttribute('style', 'background:black');
+        }
+        
         board[y][x] = 'x'
     };
 
